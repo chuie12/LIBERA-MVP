@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIBERA</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #101010;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.phone {
+    width: 100%;
+    max-width: 390px;
+    height: 760px;
+    max-height: 90vh;
+    min-height: 550px;
+    border: 9px solid #80bddb;
+    border-radius: 45px;
+    padding: 9px;
+    background: #111;
+    box-shadow: 0 0 0 2px #d0eafa;
+}
+
+.phone-inner {
+    height: 100%;
+    background: #191919;
+    border-radius: 30px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.logo {
+    text-align: center;
+    font-size: 23px;
+    letter-spacing: 3px;
+    margin-bottom: 55px;
+}
+
+.screen {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.screen.active {
+    display: flex;
+}
+
+button {
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+
+.category-btn {
+    background: #0083b5;
+    color: white;
+    border: 1px solid #9bd3e9;
+    border-radius: 5px;
+    padding: 12px;
+    width: 100%;
+    margin-bottom: auto;
+}
+
+.question-label {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+textarea {
+    background: black;
+    border: 2px solid #9bd3e9;
+    border-radius: 6px;
+    padding: 12px;
+    color: white;
+    width: 100%;
+    height: 100px;
+    resize: none;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.ask-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.ask-btn {
+    background: #005c19;
+    color: white;
+    border: 2px solid #a4e3b2;
+    border-radius: 6px;
+    padding: 9px 24px;
+}
+
+.section-title {
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.original-question {
+    color: #ccc;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.results {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.resource-card {
+    border-bottom: 1px solid #444;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+}
+
+.resource-name {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+.resource-description {
+    font-size: 12px;
+    color: #ccc;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.view-link {
+    color: #8bc8e5;
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.back-btn {
+    background: black;
+    color: white;
+    border: 2px solid #9bd3e9;
+    border-radius: 6px;
+    padding: 12px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.details {
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.details ul {
+    padding-left: 20px;
+    margin-top: 12px;
+}
+
+.official-link {
+    display: block;
+    width: fit-content;
+    margin: 20px auto 8px;
+    background: #0083b5;
+    color: white;
+    border: 1px solid #9bd3e9;
+    border-radius: 6px;
+    padding: 10px 22px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.link-caption {
+    text-align: center;
+    color: #aaa;
+    font-size: 11px;
+}
+
+.category-menu {
+    display: none;
+    background: #252525;
+    border: 1px solid #80bddb;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.category-menu button {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+}
+
+.category-menu button:hover {
+    background: #444;
+}
+
+.empty {
+    font-size: 13px;
+    color: #ccc;
+}
+
+@media(max-height: 650px) {
+    .phone {
+        height: 95vh;
+    }
+
+    .logo {
+        margin-bottom: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+<div class="phone-inner">
+
+    <div class="logo">LIBERA</div>
+
+    <!-- HOME PAGE -->
+    <section id="home" class="screen active">
+
+        <button class="category-btn" onclick="toggleCategories()">
+            Browse by Category
+        </button>
+
+        <div class="category-menu" id="categories">
+            <button onclick="categorySearch('Tutoring')">Tutoring</button>
+            <button onclick="categorySearch('Technology')">Technology</button>
+            <button onclick="categorySearch('Financial Aid')">Financial Aid</button>
+            <button onclick="categorySearch('Academic Support')">Academic Support</button>
+            <button onclick="categorySearch('Career Services')">Career Services</button>
+        </div>
+
+        <div class="question-label">
+            What do you need help with?
+        </div>
+
+        <textarea id="question"
+            placeholder="Enter your question..."></textarea>
+
+        <div class="ask-row">
+            <button class="ask-btn" onclick="searchResources()">
+                Ask
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- SEARCH RESULTS -->
+    <section id="results-screen" class="screen">
+
+        <div class="section-title">Search Results</div>
+
+        <div class="original-question" id="original-question">
+            Original question will appear here.
+        </div>
+
+        <div class="results" id="results-list"></div>
+
+        <button class="back-btn" onclick="showScreen('home')">
+            Back to Home
+        </button>
+
+    </section>
+
+
+    <!-- RESOURCE DETAILS -->
+    <section id="details-screen" class="screen">
+
+        <div class="section-title">Resource Details</div>
+
+        <div class="details" id="resource-details"></div>
+
+        <button class="back-btn" onclick="showScreen('results-screen')">
+            Back to Results
+        </button>
+
+    </section>
+
+</div>
+</div>
+
+
+<script>
+
+// Sample university resources
+
+const resources = [
+{
+    name: "Math Tutoring",
+    description: "Get assistance with mathematics courses and homework.",
+    category: "Tutoring",
+    location: "Durham Science Center, Room 113",
+    availability: "Monday-Friday, 9 AM - 5 PM",
+    instructions: "Visit the tutoring center or schedule an appointment.",
+    url: "https://www.unomaha.edu/"
+},
+{
+    name: "Writing Center",
+    description: "Help with essays, research papers, and writing assignments.",
+    category: "Academic Support",
+    location: "Arts and Sciences Hall",
+    availability: "Monday-Friday, by appointment",
+    instructions: "Schedule a writing consultation.",
+    url: "https://www.unomaha.edu/"
+},
+{
+    name: "IT Help Desk",
+    description: "Technical support for university accounts and devices.",
+    category: "Technology",
+    location: "University Campus",
+    availability: "University business hours",
+    instructions: "Submit a technical support request.",
+    url: "https://www.unomaha.edu/"
+},
+{
+    name: "Financial Aid Office",
+    description: "Help with FAFSA, scholarships, grants, and financial aid.",
+    category: "Financial Aid",
+    location: "Eppley Administration Building",
+    availability: "Monday-Friday, business hours",
+    instructions: "Contact the Financial Aid Office.",
+    url: "https://www.unomaha.edu/"
+},
+{
+    name: "Career Services",
+    description: "Resume reviews, career guidance, and interview preparation.",
+    category: "Career Services",
+    location: "Milo Bail Student Center",
+    availability: "Monday-Friday, by appointment",
+    instructions: "Schedule an appointment with a career advisor.",
+    url: "https://www.unomaha.edu/"
+}
+];
+
+let currentResults = [];
+let previousQuestion = "";
+
+
+// Switch between screens
+
+function showScreen(screenId) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId).classList.add("active");
+
+}
+
+
+// Browse categories
+
+function toggleCategories() {
+
+    const menu = document.getElementById("categories");
+
+    menu.style.display =
+        menu.style.display === "block" ? "none" : "block";
+
+}
+
+
+// Select category
+
+function categorySearch(category) {
+
+    document.getElementById("question").value =
+        "I need help with " + category;
+
+    searchResources();
+
+}
+
+// Clickable links
+
+function displayAnswer(element, answer) {
+    element.replaceChildren();
+
+    const urlPattern = /https?:\/\/[^\s<>"\]]+/g;
+    let position = 0;
+
+    for (const match of answer.matchAll(urlPattern)) {
+        const url = match[0].replace(/[.,;!?)]+$/, "");
+
+        element.appendChild(
+            document.createTextNode(
+                answer.slice(position, match.index)
+            )
+        );
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.textContent = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.style.color = "#8bc8e5";
+        link.style.textDecoration = "underline";
+
+        element.appendChild(link);
+        position = match.index + url.length;
+    }
+
+    element.appendChild(
+        document.createTextNode(answer.slice(position))
+    );
+}
+
+// Search resources
+
+async function searchResources() {
+    const question =
+        document.getElementById("question").value.trim();
+
+    if (!question) {
+        alert("Please enter a question.");
+        return;
+    }
+
+    previousQuestion = question;
+
+    const words = question.toLowerCase().split(/\s+/);
+
+    currentResults = resources.filter(resource => {
+        const content = (
+            resource.name + " " +
+            resource.description + " " +
+            resource.category
+        ).toLowerCase();
+
+        return words.some(word =>
+            word.length > 2 && content.includes(word)
+        );
+    });
+
+    const questionElement =
+        document.getElementById("original-question");
+
+    questionElement.textContent = '"' + question + '"';
+
+    document.getElementById("results-list").replaceChildren();
+    document.getElementById("results-list").style.display = "none";
+
+    let answerElement = document.getElementById("ai-answer");
+
+    if (!answerElement) {
+        answerElement = document.createElement("div");
+        answerElement.id = "ai-answer";
+        answerElement.style.whiteSpace = "pre-wrap";
+        answerElement.style.margin = "16px 0";
+    }
+
+    questionElement.insertAdjacentElement(
+        "afterend", answerElement
+    );
+
+    answerElement.textContent = "LIBERA is finding an answer…";
+
+    document.getElementById("categories").style.display = "none";
+    showScreen("results-screen");
+
+    try {
+        const response = await fetch("/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ question: question })
+        });
+
+        if (!response.ok) {
+            throw new Error("Request failed");
+        }
+
+        const data = await response.json();
+
+        if (previousQuestion === question) {
+            displayAnswer(answerElement, data.answer);
+        }
+    } catch (error) {
+        if (previousQuestion === question) {
+            answerElement.textContent =
+                "LIBERA could not get an answer. Please try again.";
+        }
+    }
+}
+
+
+// Display search results
+
+function renderResults() {
+
+    const list = document.getElementById("results-list");
+
+    if (currentResults.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty">
+                No results found. Try another question.
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML = currentResults.map((resource, index) => `
+
+        <div class="resource-card">
+
+            <div class="resource-name">
+                ${resource.name}
+            </div>
+
+            <div class="resource-description">
+                - ${resource.description}
+            </div>
+
+            <span class="view-link"
+                onclick="openResource(${index})">
+                View details →
+            </span>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+// Open resource details
+
+function openResource(index) {
+
+    const resource = currentResults[index];
+
+    document.getElementById("resource-details").innerHTML = `
+
+        <strong>Resource Name:</strong>
+        ${resource.name}
+
+        <ul>
+            <li>
+                <strong>Description:</strong>
+                ${resource.description}
+            </li>
+
+            <li>
+                <strong>Available location:</strong>
+                ${resource.location}
+            </li>
+
+            <li>
+                <strong>Availability:</strong>
+                ${resource.availability}
+            </li>
+
+            <li>
+                <strong>Access instructions:</strong>
+                ${resource.instructions}
+            </li>
+        </ul>
+
+        <a href="${resource.url}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="official-link">
+            Official link
+        </a>
+
+        <div class="link-caption">
+            (Link to university resources)
+        </div>
+
+    `;
+
+    showScreen("details-screen");
+
+}
+
+</script>
+
+</body>
+</html>
