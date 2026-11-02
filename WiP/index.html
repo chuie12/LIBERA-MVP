@@ -398,6 +398,39 @@ function categorySearch(category) {
 
 }
 
+// Clickable links
+
+function displayAnswer(element, answer) {
+    element.replaceChildren();
+
+    const urlPattern = /https?:\/\/[^\s<>"\]]+/g;
+    let position = 0;
+
+    for (const match of answer.matchAll(urlPattern)) {
+        const url = match[0].replace(/[.,;!?)]+$/, "");
+
+        element.appendChild(
+            document.createTextNode(
+                answer.slice(position, match.index)
+            )
+        );
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.textContent = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.style.color = "#8bc8e5";
+        link.style.textDecoration = "underline";
+
+        element.appendChild(link);
+        position = match.index + url.length;
+    }
+
+    element.appendChild(
+        document.createTextNode(answer.slice(position))
+    );
+}
 
 // Search resources
 
@@ -431,7 +464,8 @@ async function searchResources() {
 
     questionElement.textContent = '"' + question + '"';
 
-    renderResults();
+    document.getElementById("results-list").replaceChildren();
+    document.getElementById("results-list").style.display = "none";
 
     let answerElement = document.getElementById("ai-answer");
 
@@ -467,7 +501,7 @@ async function searchResources() {
         const data = await response.json();
 
         if (previousQuestion === question) {
-            answerElement.textContent = data.answer;
+            displayAnswer(answerElement, data.answer);
         }
     } catch (error) {
         if (previousQuestion === question) {
