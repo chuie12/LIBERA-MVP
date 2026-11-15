@@ -231,379 +231,143 @@ textarea {
     }
 }
 </style>
+
+<style>
+.logo { margin-bottom: 20px; }
+.chat { flex: 1; min-height: 160px; overflow-y: auto; margin: 16px 0; }
+.message { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.5; padding: 10px; margin-bottom: 12px; border-radius: 8px; background: #252525; }
+.message.user { background: #173445; }
+.message strong { display: block; margin-bottom: 5px; }
+.notice { color: #ccc; font-size: 12px; line-height: 1.5; }
+#status { min-height: 24px; font-size: 13px; color: #ccc; margin-top: 8px; }
+button:disabled { opacity: .6; cursor: wait; }
+textarea { flex-shrink: 0; height: 80px; }
+.ask-row { gap: 10px; }
+.back-btn { margin: 0; padding: 9px; width: auto; }
+</style>
 </head>
 
 <body>
-
-<div class="phone">
-<div class="phone-inner">
-
-    <div class="logo">LIBERA</div>
-
-    <!-- HOME PAGE -->
-    <section id="home" class="screen active">
-
-        <button class="category-btn" onclick="toggleCategories()">
-            Browse by Category
-        </button>
-
-        <div class="category-menu" id="categories">
-            <button onclick="categorySearch('Tutoring')">Tutoring</button>
-            <button onclick="categorySearch('Technology')">Technology</button>
-            <button onclick="categorySearch('Financial Aid')">Financial Aid</button>
-            <button onclick="categorySearch('Academic Support')">Academic Support</button>
-            <button onclick="categorySearch('Career Services')">Career Services</button>
-        </div>
-
-        <div class="question-label">
-            What do you need help with?
-        </div>
-
-        <textarea id="question"
-            placeholder="Enter your question..."></textarea>
-
-        <div class="ask-row">
-            <button class="ask-btn" onclick="searchResources()">
-                Ask
-            </button>
-        </div>
-
-    </section>
-
-
-    <!-- SEARCH RESULTS -->
-    <section id="results-screen" class="screen">
-
-        <div class="section-title">Search Results</div>
-
-        <div class="original-question" id="original-question">
-            Original question will appear here.
-        </div>
-
-        <div class="results" id="results-list"></div>
-
-        <button class="back-btn" onclick="showScreen('home')">
-            Back to Home
-        </button>
-
-    </section>
-
-
-    <!-- RESOURCE DETAILS -->
-    <section id="details-screen" class="screen">
-
-        <div class="section-title">Resource Details</div>
-
-        <div class="details" id="resource-details"></div>
-
-        <button class="back-btn" onclick="showScreen('results-screen')">
-            Back to Results
-        </button>
-
-    </section>
-
+<div class="phone"><main class="phone-inner">
+<div class="logo">LIBERA</div>
+<p class="notice">Explore a campus resource or talk through a first step. What would you like help with?</p>
+<div id="conversation" class="chat" role="log" aria-label="Conversation" aria-live="polite"></div>
+<label for="question" class="question-label">Your message</label>
+<textarea id="question" maxlength="2000" placeholder="I want help finding a job, but I’m unsure where to start..."></textarea>
+<div class="ask-row">
+<button id="reset" class="back-btn" type="button">New conversation</button>
+<button id="send" class="ask-btn" type="button">Send</button>
 </div>
-</div>
-
-
+<p id="status" role="status"></p>
+<p class="notice">No name or student ID needed. This page keeps the latest 10 completed exchanges in memory and sends them to the server and model with your next message. Refreshing or starting a new conversation clears this page’s history. Avoid sharing sensitive details.</p>
+</main></div>
 <script>
-
-// Sample university resources
-
-const resources = [
-{
-    name: "Math Tutoring",
-    description: "Get assistance with mathematics courses and homework.",
-    category: "Tutoring",
-    location: "Durham Science Center, Room 113",
-    availability: "Monday-Friday, 9 AM - 5 PM",
-    instructions: "Visit the tutoring center or schedule an appointment.",
-    url: "https://www.unomaha.edu/"
-},
-{
-    name: "Writing Center",
-    description: "Help with essays, research papers, and writing assignments.",
-    category: "Academic Support",
-    location: "Arts and Sciences Hall",
-    availability: "Monday-Friday, by appointment",
-    instructions: "Schedule a writing consultation.",
-    url: "https://www.unomaha.edu/"
-},
-{
-    name: "IT Help Desk",
-    description: "Technical support for university accounts and devices.",
-    category: "Technology",
-    location: "University Campus",
-    availability: "University business hours",
-    instructions: "Submit a technical support request.",
-    url: "https://www.unomaha.edu/"
-},
-{
-    name: "Financial Aid Office",
-    description: "Help with FAFSA, scholarships, grants, and financial aid.",
-    category: "Financial Aid",
-    location: "Eppley Administration Building",
-    availability: "Monday-Friday, business hours",
-    instructions: "Contact the Financial Aid Office.",
-    url: "https://www.unomaha.edu/"
-},
-{
-    name: "Career Services",
-    description: "Resume reviews, career guidance, and interview preparation.",
-    category: "Career Services",
-    location: "Milo Bail Student Center",
-    availability: "Monday-Friday, by appointment",
-    instructions: "Schedule an appointment with a career advisor.",
-    url: "https://www.unomaha.edu/"
-}
-];
-
-let currentResults = [];
-let previousQuestion = "";
-
-
-// Switch between screens
-
-function showScreen(screenId) {
-
-    document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.remove("active");
-    });
-
-    document.getElementById(screenId).classList.add("active");
-
-}
-
-
-// Browse categories
-
-function toggleCategories() {
-
-    const menu = document.getElementById("categories");
-
-    menu.style.display =
-        menu.style.display === "block" ? "none" : "block";
-
-}
-
-
-// Select category
-
-function categorySearch(category) {
-
-    document.getElementById("question").value =
-        "I need help with " + category;
-
-    searchResources();
-
-}
-
-// Clickable links
+// Temporary memory only: no localStorage, cookies, or saved transcripts.
+let history = [];
+let pending = false;
+let generation = 0;
+let controller = null;
+const questionInput = document.getElementById("question");
+const log = document.getElementById("conversation");
+const status = document.getElementById("status");
+const sendButton = document.getElementById("send");
 
 function displayAnswer(element, answer) {
-    element.replaceChildren();
-
-    const urlPattern = /https?:\/\/[^\s<>"\]]+/g;
+    const pattern = /https?:\/\/[^\s<>"\]]+/g;
     let position = 0;
-
-    for (const match of answer.matchAll(urlPattern)) {
+    for (const match of answer.matchAll(pattern)) {
         const url = match[0].replace(/[.,;!?)]+$/, "");
-
-        element.appendChild(
-            document.createTextNode(
-                answer.slice(position, match.index)
-            )
-        );
-
+        element.appendChild(document.createTextNode(answer.slice(position, match.index)));
         const link = document.createElement("a");
         link.href = url;
         link.textContent = url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.style.color = "#8bc8e5";
-        link.style.textDecoration = "underline";
-
         element.appendChild(link);
         position = match.index + url.length;
     }
-
-    element.appendChild(
-        document.createTextNode(answer.slice(position))
-    );
+    element.appendChild(document.createTextNode(answer.slice(position)));
 }
 
-// Search resources
+function addMessage(role, content) {
+    const message = document.createElement("div");
+    message.className = "message " + role;
+    const label = document.createElement("strong");
+    label.textContent = role === "user" ? "You" : "LIBERA";
+    const text = document.createElement("span");
+    displayAnswer(text, content);
+    message.append(label, text);
+    log.appendChild(message);
+    log.scrollTop = log.scrollHeight;
+    return message;
+}
 
-async function searchResources() {
-    const question =
-        document.getElementById("question").value.trim();
-
-    if (!question) {
-        alert("Please enter a question.");
-        return;
-    }
-
-    previousQuestion = question;
-
-    const words = question.toLowerCase().split(/\s+/);
-
-    currentResults = resources.filter(resource => {
-        const content = (
-            resource.name + " " +
-            resource.description + " " +
-            resource.category
-        ).toLowerCase();
-
-        return words.some(word =>
-            word.length > 2 && content.includes(word)
-        );
-    });
-
-    const questionElement =
-        document.getElementById("original-question");
-
-    questionElement.textContent = '"' + question + '"';
-
-    document.getElementById("results-list").replaceChildren();
-    document.getElementById("results-list").style.display = "none";
-
-    let answerElement = document.getElementById("ai-answer");
-
-    if (!answerElement) {
-        answerElement = document.createElement("div");
-        answerElement.id = "ai-answer";
-        answerElement.style.whiteSpace = "pre-wrap";
-        answerElement.style.margin = "16px 0";
-    }
-
-    questionElement.insertAdjacentElement(
-        "afterend", answerElement
-    );
-
-    answerElement.textContent = "LIBERA is finding an answer…";
-
-    document.getElementById("categories").style.display = "none";
-    showScreen("results-screen");
-
+async function sendMessage() {
+    const question = questionInput.value.trim();
+    if (pending || !question) return;
+    const requestGeneration = generation;
+    const requestController = new AbortController();
+    controller = requestController;
+    pending = true;
+    sendButton.disabled = true;
+    questionInput.disabled = true;
+    const userBubble = addMessage("user", question);
+    questionInput.value = "";
+    status.textContent = "LIBERA is thinking…";
     try {
         const response = await fetch("/ask", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ question: question })
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({question, history}),
+            signal: requestController.signal
         });
-
-        if (!response.ok) {
-            throw new Error("Request failed");
-        }
-
+        if (!response.ok) throw new Error("Request failed");
         const data = await response.json();
-
-        if (previousQuestion === question) {
-            displayAnswer(answerElement, data.answer);
-        }
+        if (typeof data.answer !== "string" || !data.answer.trim()) throw new Error("Empty answer");
+        if (requestGeneration !== generation) return;
+        history.push({role: "user", content: question}, {role: "assistant", content: data.answer});
+        history = history.slice(-20);
+        addMessage("assistant", data.answer);
+        status.textContent = "";
     } catch (error) {
-        if (previousQuestion === question) {
-            answerElement.textContent =
-                "LIBERA could not get an answer. Please try again.";
+        if (requestGeneration !== generation) return;
+        // Failed turns do not enter history; restore the message for retry.
+        userBubble.remove();
+        questionInput.value = question;
+        status.textContent = "Could not get an answer. Your message is ready to retry.";
+    } finally {
+        if (requestGeneration === generation) {
+            pending = false;
+            controller = null;
+            sendButton.disabled = false;
+            questionInput.disabled = false;
+            questionInput.focus();
         }
     }
 }
 
-
-// Display search results
-
-function renderResults() {
-
-    const list = document.getElementById("results-list");
-
-    if (currentResults.length === 0) {
-
-        list.innerHTML = `
-            <div class="empty">
-                No results found. Try another question.
-            </div>
-        `;
-
-        return;
+function resetConversation() {
+    generation += 1;
+    if (controller) controller.abort();
+    controller = null;
+    pending = false;
+    history = [];
+    log.replaceChildren();
+    questionInput.value = "";
+    questionInput.disabled = false;
+    sendButton.disabled = false;
+    status.textContent = "New conversation started.";
+    questionInput.focus();
+}
+sendButton.addEventListener("click", sendMessage);
+document.getElementById("reset").addEventListener("click", resetConversation);
+questionInput.addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+        event.preventDefault();
+        sendMessage();
     }
-
-    list.innerHTML = currentResults.map((resource, index) => `
-
-        <div class="resource-card">
-
-            <div class="resource-name">
-                ${resource.name}
-            </div>
-
-            <div class="resource-description">
-                - ${resource.description}
-            </div>
-
-            <span class="view-link"
-                onclick="openResource(${index})">
-                View details →
-            </span>
-
-        </div>
-
-    `).join("");
-
-}
-
-
-// Open resource details
-
-function openResource(index) {
-
-    const resource = currentResults[index];
-
-    document.getElementById("resource-details").innerHTML = `
-
-        <strong>Resource Name:</strong>
-        ${resource.name}
-
-        <ul>
-            <li>
-                <strong>Description:</strong>
-                ${resource.description}
-            </li>
-
-            <li>
-                <strong>Available location:</strong>
-                ${resource.location}
-            </li>
-
-            <li>
-                <strong>Availability:</strong>
-                ${resource.availability}
-            </li>
-
-            <li>
-                <strong>Access instructions:</strong>
-                ${resource.instructions}
-            </li>
-        </ul>
-
-        <a href="${resource.url}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="official-link">
-            Official link
-        </a>
-
-        <div class="link-caption">
-            (Link to university resources)
-        </div>
-
-    `;
-
-    showScreen("details-screen");
-
-}
-
+});
 </script>
-
 </body>
 </html>
