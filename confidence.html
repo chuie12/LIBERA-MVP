@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIBERA - One small first step</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#f3f3f0;color:#1f1f1d;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 16px}
+button,input{font-family:inherit}
+:focus-visible{outline:2px solid #1f4fd8;outline-offset:2px}
+h2{margin:0;font-size:22px;line-height:1.25;font-weight:600}
+p{margin:0}
+.muted{font-size:14px;line-height:1.5;color:#454442}
+.small{font-size:13px;line-height:1.5;color:#454442}
+
+.phone{width:100%;max-width:390px;min-height:820px;display:flex;flex-direction:column;background:#fff;border:1px solid #b4b3a8;border-radius:32px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.topbar{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 12px}
+.topbar .side{width:96px}
+.steplabel{font-size:13px;color:#5f5e5a;text-align:center}
+.progress{height:4px;background:#e7e6e1}
+.progress div{height:4px;background:#1f4fd8;transition:width .25s ease}
+.content{flex:1;display:flex;flex-direction:column;gap:14px;padding:22px 20px 16px}
+.bottom{padding:0 20px 16px;display:flex;flex-direction:column;gap:8px}
+.pairrow{min-height:56px;display:grid;gap:8px}
+.primary{min-height:48px;display:flex;flex-direction:column}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.footnote{margin:4px 0 0;text-align:center;font-size:12.5px;color:#5f5e5a}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 12px;border-radius:10px;border:1px solid #1f1f1d;background:#1f1f1d;color:#fff;font-size:15px;font-weight:600;cursor:pointer;width:100%}
+.btn:hover{background:#383835}
+.btn2{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 12px;border-radius:10px;border:1px solid #6d6b67;background:#fff;color:#1f1f1d;font-size:15px;font-weight:500;cursor:pointer;width:100%}
+.btn2:hover{background:#f3f3f0}
+.btn:disabled,.btn2:disabled{opacity:.45;cursor:default}
+.pair{min-height:56px;font-size:14px;line-height:1.25;text-align:center}
+.back{width:auto;min-height:44px;padding:0 14px;font-size:14px}
+.opt{display:flex;align-items:center;text-align:left;min-height:52px;padding:10px 14px;border-radius:10px;border:1px solid #b4b3a8;background:#fff;color:#1f1f1d;font-size:15px;cursor:pointer;width:100%}
+.opt:hover{border-color:#1f4fd8;background:#f5f8ff}
+.opt.on{border-color:#1f4fd8;background:#e6edff;color:#153aa8;font-weight:600}
+.opt.saved{border-color:#1f4fd8}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #8a8a84;background:#fff;color:#1f1f1d;font-size:14px;cursor:pointer}
+.chip:hover{background:#f3f3f0}
+.chip.on{background:#e6edff;border-color:#1f4fd8;color:#153aa8;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.stack8{display:flex;flex-direction:column;gap:8px}
+.stack4{display:flex;flex-direction:column;gap:4px}
+.lbl{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#5f5e5a;margin:0}
+.ph{border:1px dashed #8a8a84;border-radius:8px;padding:8px 10px;font-size:13.5px;line-height:1.45;color:#3d3d3a;background:#fafaf8}
+.ph.firststep{background:#f5f8ff;border-color:#1f4fd8;color:#153aa8}
+.ph.solid{border-style:solid;border-color:#c3c2b7;background:#fff;color:#1f1f1d}
+.ph.msg{font-size:15px;line-height:1.55;color:#1f1f1d;background:#f6f6f4;border-style:solid;border-color:#c3c2b7;padding:14px;white-space:pre-wrap}
+.fact{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;color:#2c2c2a}
+.fact svg{flex:none;margin-top:2px;color:#454442}
+.fact a{color:#1f4fd8}
+.card{border:1px solid #b4b3a8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:4px;background:#fafaf8}
+.textin{width:100%;min-height:48px;padding:0 12px;border:1px solid #8a8a84;border-radius:10px;font-size:14px;color:#1f1f1d;background:#fff}
+
+.why{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.45;color:#3d3d3a;background:#fafaf8;border:1px solid #e7e6e1;border-radius:8px;padding:8px 10px}
+.why svg{flex:none;margin-top:1px;color:#1f4fd8}
+.ainote{font-size:12.5px;line-height:1.45;color:#153aa8}
+.skel{background:linear-gradient(90deg,#efeeea 25%,#f7f7f5 50%,#efeeea 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}.progress div{transition:none}}
+.err{border:1px solid #c0392b;background:#fdf3f2;color:#7a1f15;border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.45}
+
+.aistatus{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5f5e5a;background:#fff;border:1px solid #d6d5cf;border-radius:999px;padding:4px 10px}
+.aistatus i{width:8px;height:8px;border-radius:50%;background:#b4b3a8;display:inline-block}
+.aistatus.live i{background:#2e7d32}
+.aistatus.sim i{background:#c98a00}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:440px){
+  body{padding:0;justify-content:flex-start}
+  .phone{border:none;border-radius:0;box-shadow:none;min-height:100vh;max-width:none}
+  .aistatus{margin:8px 0 16px}
+}
+</style>
+</head>
+<body>
+
+<main class="phone" aria-label="LIBERA">
+  <div class="topbar">
+    <div class="side" id="back-slot"></div>
+    <p class="steplabel" id="step-label"></p>
+    <div class="side"></div>
+  </div>
+  <div class="progress" aria-hidden="true"><div id="progress-bar" style="width:0"></div></div>
+  <div class="content" id="content"></div>
+  <div class="bottom">
+    <div class="pairrow" id="pair-row"></div>
+    <div class="primary" id="primary-row"></div>
+    <p class="footnote">No account. Saved steps stay on this device.</p>
+  </div>
+</main>
+<div id="ai-status" class="aistatus" role="status"><i></i><span>Checking AI...</span></div>
+<div class="sr" aria-live="polite" id="live"></div>
+
+<script>
+"use strict";
+
+// ---- Fixed content (never written by the AI) -------------------------------
+const STARTERS = [
+  { label: "I'm new and don't know where to start", need: null },
+  { label: "I want to meet people", need: "people" },
+  { label: "I need help with a class", need: "class" }
+];
+const NEEDS = [
+  { id: "people", label: "Something with people, low pressure" },
+  { id: "solo", label: "Something quiet I can try on my own first" },
+  { id: "class", label: "Help with a class" }
+];
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const TIMES = ["Morning", "Midday", "Afternoon"];
+const STEP_LABELS = { start: "Step 1 of 5", q1: "Step 2 of 5", q2: "Step 3 of 5", step: "Step 4 of 5", msg: "Step 5 of 5", notnow: "Side path", support: "Support", saved: "Saved" };
+const ORDER = { start: 1, q1: 2, q2: 3, step: 4, msg: 5 };
+// Mirror of the server check, used only if the server can't be reached.
+const DISTRESS = [/\bkill (my ?self|me)\b/, /\bsuicid/, /\bend (it all|my life)\b/, /\bwant to die\b/, /\bwanna die\b/, /\bself[- ]?harm/, /\bhurt(ing)? my ?self\b/, /\bcut(ting)? my ?self\b/, /\bno reason to live\b/, /\bcan'?t go on\b/, /\bbetter off dead\b/, /\bhopeless\b/, /\bpanic attack/, /\bnot safe\b/, /\bin crisis\b/, /\bdon'?t want to (be here|live)\b/];
+const SAVE_KEY = "libera.savedStep";
+
+// ---- State -----------------------------------------------------------------
+const state = {
+  screen: "start", from: "start",
+  text: "", need: null, needFromAI: false,
+  days: ["Tue", "Thu"], time: "Midday",
+  recs: [], opt: 0, recsKey: null, source: null,
+  loading: false, error: null, busy: false,
+  aiAnswer: null, aiSource: null, aiFor: null,
+  added: false, copied: false, sent: false,
+  saved: loadSaved()
+};
+let reqSeq = 0;
+
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || null; } catch (e) { return null; }
+}
+function storeSaved(step) {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(step)); } catch (e) { /* storage blocked: keep in memory */ }
+}
+
+function set(patch) { Object.assign(state, patch); render(); }
+function go(screen) {
+  const patch = { screen, copied: false, sent: false };
+  if (screen === "support" && state.screen !== "support") patch.from = state.screen;
+  set(patch);
+  if (screen === "step") ensureRecs();
+  announce(STEP_LABELS[screen] || "");
+}
+function back() {
+  const map = { q1: "start", q2: "q1", step: "q2", msg: "step", notnow: "step", saved: "step", support: state.from };
+  go(map[state.screen] || "start");
+}
+function reset() {
+  set({ screen: "start", from: "start", text: "", need: null, needFromAI: false, opt: 0, added: false, copied: false, sent: false, error: null, recsKey: null, recs: [], aiAnswer: null, aiSource: null, aiFor: null });
+}
+function another() {
+  const n = state.recs.length || 1;
+  set({ opt: (state.opt + 1) % n, screen: "step", added: false, copied: false, sent: false });
+  if (!state.recs.length) ensureRecs();
+}
+function current() { return state.recs[state.opt] || null; }
+
+// ---- Step data (placeholders until verified UNO entries exist) --------------
+// Fields in [brackets] are placeholders, per the Sprint 2 design.
+const STEPS = [
+  { id: "study-session", kind: "Study session", title: "[Course] study session", tags: ["class", "people"], days: ["Tue", "Thu"], times: ["Afternoon"],
+    first_step: "Sit in for 10 minutes without speaking. Nobody will call on you.", contact: "[Study session leader]", schedule: "[Day, time] - repeats weekly",
+    location: "[Building] - [X] min from [your class]", expect: "[What to expect, from the verified entry]", url: "", last_checked: "",
+    message: "Hi [name], I'm in [course]. Is it okay if I drop in to the study session this week? Thanks, [first name]", verified: false },
+  { id: "open-event", kind: "Open event", title: "[Event name] this week", tags: ["people"], days: ["Mon", "Wed", "Fri"], times: ["Midday"],
+    first_step: "Stop by for 15 minutes. You can leave whenever you like.", contact: "[Event organizer]", schedule: "[Day, time] - repeats weekly",
+    location: "[Building] - [X] min from [your class]", expect: "[What to expect, from the verified entry]", url: "", last_checked: "",
+    message: "Hi [name], I saw [event name] on the official page. Is it okay if I come along this week? Thanks, [first name]", verified: false },
+  { id: "office-hours", kind: "Office hours", title: "[Named person]'s office hours", tags: ["class", "solo"], days: ["Mon", "Wed"], times: ["Morning", "Midday"],
+    first_step: "Bring one question you wrote down beforehand. Five minutes is fine.", contact: "[Named person or role]", schedule: "[Day, time] - repeats weekly",
+    location: "[Building] - [X] min from [your class]", expect: "[What to expect, from the verified entry]", url: "", last_checked: "",
+    message: "Hi [name], I'm in [course]. Would it be okay to stop by your office hours this week? Thanks, [first name]", verified: false },
+  { id: "quiet-study-space", kind: "Quiet space", title: "[Quiet study space]", tags: ["solo"], days: ["Mon", "Tue", "Wed", "Thu", "Fri"], times: ["Morning", "Midday", "Afternoon"],
+    first_step: "Spend 20 minutes there between classes. No sign-up needed.", contact: "[Front desk or role]", schedule: "[Open hours]",
+    location: "[Building] - [X] min from [your class]", expect: "[What to expect, from the verified entry]", url: "", last_checked: "",
+    message: "Hi, is [space] open to drop in during [time]? Thanks, [first name]", verified: false },
+  { id: "student-org-meeting", kind: "Student group", title: "[Student organization] weekly meeting", tags: ["people"], days: ["Tue", "Thu"], times: ["Afternoon"],
+    first_step: "Read their page, then go to one meeting and just listen.", contact: "[Organization contact]", schedule: "[Day, time] - repeats weekly",
+    location: "[Building] - [X] min from [your class]", expect: "[What to expect, from the verified entry]", url: "", last_checked: "",
+    message: "Hi [name], I'm interested in [organization]. Is it okay if I come to a meeting this week just to listen? Thanks, [first name]", verified: false },
+  { id: "career-services", kind: "Advising", title: "UNO Career Services", tags: ["solo", "people"], days: ["Mon", "Tue", "Wed", "Thu", "Fri"], times: ["Morning", "Midday", "Afternoon"],
+    first_step: "Open the official page and select Connect with a Career Advisor.", contact: "[Career advisor]", schedule: "[Advising hours]", location: "[Building]",
+    expect: "Career exploration, job and internship search help, resume and cover letter reviews, practice interviews.",
+    url: "https://www.unomaha.edu/career-services/index.php", last_checked: "2026-11-02",
+    message: "Hi, I'm a UNO student and I'd like to talk with a career advisor about [topic]. What's the best way to set up a time? Thanks, [first name]", verified: true }
+];
+const KEYWORDS = {
+  people: ["meet", "people", "friend", "lonely", "alone", "social", "club", "group", "belong", "connect", "event", "community"],
+  solo: ["quiet", "myself", "my own", "solo", "space", "calm", "career", "job", "internship", "resume", "advisor"],
+  class: ["class", "course", "exam", "test", "homework", "grade", "failing", "tutor", "study", "professor", "math", "assignment", "lecture"]
+};
+
+// ---- AI layer ----------------------------------------------------------------
+// The AI works in the background: it reads what the student types (via the
+// existing POST /ask endpoint) and its answer is shown alongside the step.
+// The model is offline for now, so when /ask fails or is slow the AI is
+// simulated in the browser. Force a mode with ?ai=live or ?ai=simulate.
+const AI_MODE = (new URLSearchParams(location.search).get("ai") || "auto").toLowerCase();
+const AI_TIMEOUT_MS = 8000;
+const SIM_DELAY_MS = 700;
+let aiOfflineUntil = 0;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function askBackend(question) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), AI_TIMEOUT_MS);
+  try {
+    const res = await fetch("/ask", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }), signal: ctrl.signal
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!data || typeof data.answer !== "string" || !data.answer.trim()) throw new Error("Empty answer");
+    return data.answer.trim();
+  } finally { clearTimeout(timer); }
+}
+
+function keywordNeed(text) {
+  const t = (text || "").toLowerCase();
+  let best = null, bestScore = 0;
+  for (const [need, words] of Object.entries(KEYWORDS)) {
+    const score = words.filter((w) => t.includes(w)).length;
+    if (score > bestScore) { best = need; bestScore = score; }
+  }
+  return best;
+}
+
+// Returns { need, answer, source: "ai" | "simulated" | "unavailable" }
+async function aiRead(text) {
+  const tryLive = AI_MODE === "live" || (AI_MODE === "auto" && Date.now() > aiOfflineUntil);
+  if (AI_MODE !== "simulate" && tryLive) {
+    try {
+      const answer = await askBackend(text);
+      return { need: keywordNeed(text) || keywordNeed(answer), answer, source: "ai" };
+    } catch (e) {
+      if (AI_MODE === "live") return { need: keywordNeed(text), answer: null, source: "unavailable" };
+      aiOfflineUntil = Date.now() + 60000;   // don't wait on a dead model every tap
+    }
+  }
+  await sleep(SIM_DELAY_MS);
+  return { need: keywordNeed(text), answer: simulatedAnswer(text), source: "simulated" };
+}
+
+function simulatedAnswer(text) {
+  const need = keywordNeed(text);
+  if (need === "class") return "It sounds like a class is on your mind. A study session or office hours is a low-key way to start, and you don't have to speak up the first time.";
+  if (need === "people") return "Meeting people is easier somewhere that already meets every week. You can go once just to listen and leave whenever you want.";
+  if (need === "solo") return "Starting on your own is completely fine. Here is something quiet you can try first, with no sign-up.";
+  return "Thanks for telling me. Here is one small thing you could try this week. You can always ask for a different one.";
+}
+
+const NEED_LABEL = Object.fromEntries(NEEDS.map((n) => [n.id, n.label]));
+
+function score(step, need, days, tod, text) {
+  let s = 0;
+  if (need && step.tags.includes(need)) s += step.tags[0] === need ? 3 : 2;
+  s += Math.min(2, step.days.filter((d) => days.includes(d)).length);
+  if (tod && step.times.includes(tod)) s += 1;
+  const t = (text || "").toLowerCase();
+  for (const tag of step.tags) s += 0.25 * KEYWORDS[tag].filter((w) => t.includes(w)).length;
+  if (step.verified) s += 0.1;
+  return s;
+}
+
+function reasonFor(step, need, days, tod) {
+  const parts = [];
+  if (need && step.tags.includes(need)) parts.push("It matches what you picked: " + NEED_LABEL[need].charAt(0).toLowerCase() + NEED_LABEL[need].slice(1) + ".");
+  const overlap = DAYS.filter((d) => days.includes(d) && step.days.includes(d)).slice(0, 2);
+  if (overlap.length) parts.push("It runs on " + overlap.join(" and ") + (tod && step.times.includes(tod) ? ", " + tod.toLowerCase() : "") + ", when you're on campus.");
+  return parts.length ? parts.join(" ") : "It's a small, low-pressure place to start.";
+}
+
+function rankSteps(limit) {
+  const text = state.text.trim();
+  return STEPS
+    .map((st, i) => ({ st, i, sc: score(st, state.need, state.days, state.time, text) }))
+    .sort((a, b) => b.sc - a.sc || a.i - b.i)
+    .slice(0, limit)
+    .map(({ st }) => Object.assign({}, st, { reason: reasonFor(st, state.need, state.days, state.time) }));
+}
+
+function localDistress(text) {
+  const t = (text || "").toLowerCase();
+  return DISTRESS.some((r) => r.test(t));
+}
+
+// Continue from the start screen: if the student typed, the AI reads it.
+// Distress is checked first with fixed rules and never goes to the model.
+async function continueFromStart() {
+  const text = state.text.trim();
+  if (!text) { go("q1"); return; }
+  if (localDistress(text)) { go("support"); return; }
+  set({ busy: true });
+  const r = await aiRead(text);
+  noteSource(r.source);
+  set({ busy: false, need: r.need || state.need, needFromAI: !!r.need, aiAnswer: r.answer, aiSource: r.source, aiFor: text });
+  go("q1");
+}
+
+// Ranking runs on the device; the AI's read of the student's words
+// (if they typed any) rides along with the suggestion.
+async function ensureRecs() {
+  const text = state.text.trim();
+  const key = JSON.stringify([text, state.need, state.days.slice().sort(), state.time]);
+  if (state.recsKey === key && state.recs.length) return;
+  if (localDistress(text)) { go("support"); return; }
+  const seq = ++reqSeq;
+  set({ loading: true, error: null, recsKey: key, opt: 0, added: false });
+  try {
+    if (text && state.aiFor !== text) {
+      const r = await aiRead(text);
+      if (seq !== reqSeq) return;
+      noteSource(r.source);
+      state.aiAnswer = r.answer; state.aiSource = r.source; state.aiFor = text;
+      if (!state.need && r.need) state.need = r.need;
+    } else if (!text) {
+      state.aiAnswer = null; state.aiSource = null; state.aiFor = null;
+      await sleep(250);
+      if (seq !== reqSeq) return;
+    }
+    set({ loading: false, recs: rankSteps(3), source: state.aiSource });
+  } catch (e) {
+    if (seq !== reqSeq) return;
+    set({ loading: false, recsKey: null, error: "LIBERA couldn't load a suggestion right now. Please try again." });
+  }
+}
+
+function noteSource(source) {
+  if (source === "ai") showAI("live", "AI: live");
+  else if (source === "simulated") showAI("sim", "AI: simulated (model offline)");
+  else if (source === "unavailable") showAI("", "AI: unavailable");
+}
+function showAI(cls, text) {
+  const el = document.getElementById("ai-status");
+  el.className = "aistatus " + cls;
+  el.lastChild.textContent = text;
+}
+async function checkStatus() {
+  if (AI_MODE === "simulate") { showAI("sim", "AI: simulated (?ai=simulate)"); return; }
+  try {
+    const res = await fetch("/health");
+    if (!res.ok) throw new Error();
+    showAI("", "Back end connected - AI checked on first use");
+  } catch (e) { showAI("sim", "Back end not reachable - AI simulated"); aiOfflineUntil = Date.now() + 60000; }
+}
+
+function linkify(text) {
+  const out = []; let pos = 0;
+  for (const m of text.matchAll(/https?:\/\/[^\s<>"\]]+/g)) {
+    const url = m[0].replace(/[.,;!?)]+$/, "");
+    out.push(text.slice(pos, m.index));
+    out.push(h("a", { href: url, target: "_blank", rel: "noopener noreferrer", style: "color:#1f4fd8" }, url));
+    pos = m.index + url.length;
+  }
+  out.push(text.slice(pos));
+  return out;
+}
+
+// ---- Actions ---------------------------------------------------------------
+function saveIt() {
+  const step = current();
+  if (!step) return;
+  storeSaved(step);
+  set({ saved: step, screen: "saved", copied: false, sent: false });
+}
+function openSaved() {
+  if (!state.saved) return;
+  set({ recs: [state.saved], opt: 0, recsKey: "saved", screen: "step", added: false, error: null, loading: false });
+}
+async function copyMsg() {
+  const step = current();
+  if (!step) return;
+  try { await navigator.clipboard.writeText(step.message); }
+  catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = step.message; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e2) {}
+    ta.remove();
+  }
+  set({ copied: true });
+  announce("Message copied");
+}
+function addToCalendar() {
+  const step = current();
+  if (!step) return;
+  if (state.added) { set({ added: false }); return; }
+  // Next weekday that matches both the resource and the student's days.
+  const dayIdx = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5 };
+  const wanted = (step.days || []).filter((d) => !state.days.length || state.days.includes(d));
+  const targets = (wanted.length ? wanted : (step.days || DAYS)).map((d) => dayIdx[d]);
+  const hour = { Morning: 9, Midday: 12, Afternoon: 15 }[state.time] || 12;
+  const d = new Date(); d.setHours(hour, 0, 0, 0);
+  for (let i = 1; i <= 7; i++) { d.setDate(d.getDate() + 1); if (targets.includes(d.getDay())) break; }
+  const pad = (n) => String(n).padStart(2, "0");
+  const stamp = (x) => x.getFullYear() + pad(x.getMonth() + 1) + pad(x.getDate()) + "T" + pad(x.getHours()) + pad(x.getMinutes()) + "00";
+  const end = new Date(d.getTime() + 30 * 60000);
+  const esc = (s) => String(s || "").replace(/[\\;,]/g, (m) => "\\" + m).replace(/\n/g, "\\n");
+  const ics = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//LIBERA//Confidence//EN", "BEGIN:VEVENT",
+    "UID:" + step.id + "-" + Date.now() + "@libera", "DTSTAMP:" + stamp(new Date()),
+    "DTSTART:" + stamp(d), "DTEND:" + stamp(end),
+    "RRULE:FREQ=WEEKLY", "SUMMARY:" + esc(step.title),
+    "DESCRIPTION:" + esc("Your first step: " + step.first_step + (step.url ? "\n" + step.url : "")),
+    "LOCATION:" + esc(step.location), "END:VEVENT", "END:VCALENDAR"
+  ].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  a.download = "libera-step.ics";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  set({ added: true });
+  announce("Calendar file downloaded");
+}
+
+// ---- Rendering helpers -------------------------------------------------------
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k.startsWith("on")) el.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === "class") el.className = v;
+    else if (k === "html") el.innerHTML = v;   // only used for fixed SVG icons
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) {
+    if (kid === null || kid === undefined || kid === false) continue;
+    el.appendChild(typeof kid === "string" ? document.createTextNode(kid) : kid);
+  }
+  return el;
+}
+const ICON = {
+  back: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg>',
+  person: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+  clock: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+  pin: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+  info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>',
+  link: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>',
+  spark: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"></path></svg>'
+};
+const icon = (name) => h("span", { html: ICON[name], style: "display:contents" });
+const fact = (name, ...kids) => h("div", { class: "fact" }, icon(name), h("span", null, ...kids));
+function announce(msg) { const el = document.getElementById("live"); el.textContent = ""; setTimeout(() => (el.textContent = msg), 50); }
+
+// ---- Screens -----------------------------------------------------------------
+function screenStart() {
+  const input = h("input", {
+    id: "own-words", class: "textin", type: "text", maxlength: "500", value: state.text,
+    placeholder: "e.g. I want to meet people but don't know where",
+    onInput: (e) => { state.text = e.target.value; },
+    onKeydown: (e) => { if (e.key === "Enter") continueFromStart(); }
+  });
+  return [
+    h("h2", null, "What would help right now?"),
+    h("p", { class: "muted" }, "Tap one, or type a few words. You can skip all of it."),
+    h("div", { class: "stack" },
+      state.saved && h("button", { class: "opt saved", onClick: openSaved }, "Pick up where you left off: " + state.saved.title),
+      STARTERS.map((s) => h("button", { class: "opt", onClick: () => { state.need = s.need; state.needFromAI = false; go("q1"); } }, s.label))
+    ),
+    h("div", { class: "stack8" },
+      h("label", { for: "own-words", class: "small" }, "Or say it your own way (optional)"),
+      input
+    )
+  ];
+}
+
+function screenQ1() {
+  return [
+    h("p", { class: "lbl" }, "Question 1 of 2"),
+    h("h2", null, "Which sounds closer?"),
+    state.needFromAI && state.need && h("p", { class: "ainote" }, "We picked this from what you wrote. Change it if it doesn't fit."),
+    h("div", { class: "stack" },
+      NEEDS.map((o) => {
+        const on = state.need === o.id;
+        return h("button", { class: "opt" + (on ? " on" : ""), "aria-pressed": on ? "true" : "false",
+          onClick: () => set({ need: on ? null : o.id, needFromAI: false }) }, o.label);
+      })
+    )
+  ];
+}
+
+function screenQ2() {
+  return [
+    h("p", { class: "lbl" }, "Question 2 of 2"),
+    h("h2", null, "When are you usually on campus?"),
+    h("div", { class: "stack8", role: "group", "aria-label": "Days" },
+      h("p", { class: "small" }, "Days"),
+      h("div", { class: "chips" }, DAYS.map((d) => {
+        const on = state.days.includes(d);
+        return h("button", { class: "chip" + (on ? " on" : ""), "aria-pressed": on ? "true" : "false",
+          onClick: () => set({ days: on ? state.days.filter((x) => x !== d) : state.days.concat([d]) }) }, d);
+      }))
+    ),
+    h("div", { class: "stack8", role: "group", "aria-label": "Time of day" },
+      h("p", { class: "small" }, "Time of day"),
+      h("div", { class: "chips" }, TIMES.map((t) => {
+        const on = state.time === t;
+        return h("button", { class: "chip" + (on ? " on" : ""), "aria-pressed": on ? "true" : "false",
+          onClick: () => set({ time: on ? null : t }) }, t);
+      }))
+    )
+  ];
+}
+
+function screenStep() {
+  if (state.loading) {
+    return [
+      h("p", { class: "lbl" }, "Finding one thing for you..."),
+      h("div", { class: "skel", style: "height:16px;width:40%" }),
+      h("div", { class: "skel", style: "height:28px;width:85%" }),
+      h("div", { class: "skel", style: "height:56px" }),
+      h("div", { class: "skel", style: "height:120px" })
+    ];
+  }
+  if (state.error) {
+    return [
+      h("h2", null, "Hmm, that didn't load."),
+      h("div", { class: "err", role: "alert" }, state.error),
+      h("button", { class: "btn2", onClick: () => { state.recsKey = null; ensureRecs(); } }, "Try again")
+    ];
+  }
+  const s = current();
+  if (!s) {
+    return [h("h2", null, "Nothing fits yet."), h("p", { class: "muted" }, "Try different days or times, or start over.")];
+  }
+  const total = state.recs.length;
+  const lastChecked = s.last_checked ? "Last checked " + s.last_checked : "Last checked [date]";
+  return [
+    h("p", { class: "lbl" }, total > 1 ? "Option " + (state.opt + 1) + " of " + total : "Your step"),
+    h("div", { class: "stack4" },
+      h("p", { style: "font-size:13px;color:#5f5e5a" }, s.kind),
+      h("h2", null, s.title)
+    ),
+    h("div", { class: "ph firststep" }, h("strong", { style: "font-weight:600" }, "Your first step: "), s.first_step),
+    s.reason && h("div", { class: "why" }, icon("spark"), h("span", null, "Why this: ", s.reason)),
+    state.aiAnswer && state.recsKey !== "saved" && h("div", { class: "why", style: "flex-direction:column;gap:4px" },
+      h("span", { class: "lbl" }, state.aiSource === "ai" ? "From LIBERA AI" : "From LIBERA AI (simulated)"),
+      h("span", { style: "white-space:pre-wrap" }, linkify(state.aiAnswer))),
+    h("div", { class: "stack" },
+      fact("person", s.contact),
+      fact("clock", s.schedule),
+      fact("pin", s.location),
+      fact("info", s.expect),
+      fact("link", lastChecked, " - ",
+        s.url ? h("a", { href: s.url, target: "_blank", rel: "noopener noreferrer" }, "Official page") : "[Official page link]")
+    ),
+    !s.verified && h("p", { class: "small", style: "color:#5f5e5a" }, "Details in [brackets] are placeholders until this entry is verified."),
+    h("button", { class: "btn2", onClick: () => go("notnow") }, "Not now")
+  ];
+}
+
+function screenMsg() {
+  const s = current();
+  if (state.sent) {
+    return [
+      h("h2", null, "Sent."),
+      h("p", { class: "muted" }, "You took a step. Nothing else is needed from you today."),
+      h("div", { class: "ph" }, "[Where replies arrive - team to decide]")
+    ];
+  }
+  return [
+    h("h2", null, "Ready to send"),
+    h("p", { class: "muted" }, "Read it first. Nothing goes out until you press Send."),
+    h("div", { class: "ph msg" }, s ? s.message : ""),
+    h("p", { class: "small" }, "Sending here is optional. You can copy it and send it your own way instead, or save this step for later.")
+  ];
+}
+
+function screenNot() {
+  return [
+    h("h2", null, "No problem."),
+    h("p", { class: "muted" }, "Nothing was sent and nothing will remind you. Come back whenever you want.")
+  ];
+}
+
+function screenSupport() {
+  return [
+    h("h2", null, "Talking to someone can help."),
+    h("p", { class: "muted" }, "This message is the same for everyone. It is not written by the AI."),
+    h("div", { class: "ph" }, "[Official UNO counseling resource - name, hours, phone. Verify before launch.]"),
+    h("div", { class: "ph solid" }, "If you are in immediate danger, call 911. You can also call or text ",
+      h("a", { href: "tel:988", style: "color:#1f4fd8" }, "988"), " any time.")
+  ];
+}
+
+function screenSaved() {
+  const s = state.saved;
+  return [
+    h("h2", null, "Saved for later."),
+    h("p", { class: "muted" }, "It stays on this device. Nothing was sent and nothing will remind you."),
+    s && h("div", { class: "card" },
+      h("p", { class: "lbl" }, "Your saved step"),
+      h("p", { style: "font-size:13px;color:#5f5e5a" }, s.kind),
+      h("p", { style: "font-size:17px;line-height:1.35;font-weight:600" }, s.title)
+    ),
+    h("p", { class: "small" }, "Pick it back up from the first screen whenever you are ready.")
+  ];
+}
+
+// ---- Main render -------------------------------------------------------------
+function render() {
+  const cur = state.screen;
+  const focused = document.activeElement && document.activeElement.id;
+
+  // Top bar
+  const backSlot = document.getElementById("back-slot");
+  backSlot.replaceChildren();
+  if (cur !== "start") {
+    backSlot.appendChild(h("button", { class: "btn2 back", onClick: back, "aria-label": "Go back" }, icon("back"), "Back"));
+  }
+  document.getElementById("step-label").textContent = STEP_LABELS[cur] || "";
+  const n = ORDER[cur];
+  document.getElementById("progress-bar").style.width = (n ? Math.round((n / 5) * 100) : 0) + "%";
+
+  // Content
+  const screens = { start: screenStart, q1: screenQ1, q2: screenQ2, step: screenStep, msg: screenMsg, notnow: screenNot, support: screenSupport, saved: screenSaved };
+  document.getElementById("content").replaceChildren(...screens[cur]().flat().filter(Boolean));
+
+  // Bottom pair row: same spot on every screen
+  let left = ["Just show me something", () => go("step")];
+  let right = null;
+  const ready = cur !== "step" || (!state.loading && !state.error && current());
+  if (cur === "start") right = ["Need to talk to someone?", () => go("support")];
+  if (cur === "step") { left = ["Show me another", another]; right = ["Save for later", saveIt]; }
+  if (cur === "msg" && !state.sent) { left = ["Not now", () => go("notnow")]; right = ["Save for later", saveIt]; }
+  if (cur === "msg" && state.sent) left = ["Show me another", another];
+  if (cur === "notnow") left = ["Start over", reset];
+  if (cur === "saved") left = ["Show me another", another];
+
+  const pairRow = document.getElementById("pair-row");
+  pairRow.style.gridTemplateColumns = right ? "repeat(2,minmax(0,1fr))" : "minmax(0,1fr)";
+  const stepBtn = (lbl, fn, single) => h("button", {
+    class: "btn2 pair", onClick: fn,
+    disabled: cur === "step" && !ready && !(single && state.error) ? true : null
+  }, lbl);
+  pairRow.replaceChildren(...[stepBtn(left[0], left[1]), right && stepBtn(right[0], right[1])].filter(Boolean));
+
+  // Primary row
+  const primary = document.getElementById("primary-row");
+  let p;
+  if (cur === "start") p = h("button", { class: "btn", onClick: continueFromStart, disabled: state.busy || null }, state.busy ? "Reading that..." : "Continue");
+  else if (cur === "q1") p = h("button", { class: "btn", onClick: () => go("q2") }, "Continue");
+  else if (cur === "q2") p = h("button", { class: "btn", onClick: () => go("step") }, "Continue");
+  else if (cur === "step") p = h("div", { class: "grid2" },
+    h("button", { class: "btn", onClick: () => go("msg"), disabled: !ready || null }, "Send message"),
+    h("button", { class: "btn", onClick: addToCalendar, disabled: !ready || null, "aria-pressed": state.added ? "true" : "false" }, state.added ? "Added" : "Add to calendar"));
+  else if (cur === "msg" && !state.sent) p = h("div", { class: "grid2" },
+    h("button", { class: "btn", onClick: () => set({ sent: true }) }, "Send message"),
+    h("button", { class: "btn2", onClick: copyMsg }, state.copied ? "Copied" : "Copy message"));
+  else if (cur === "msg") p = h("button", { class: "btn", onClick: reset }, "Done");
+  else if (cur === "notnow") p = h("button", { class: "btn", onClick: another }, "Show me a different option");
+  else if (cur === "support") p = h("button", { class: "btn", onClick: back }, "Back to where I was");
+  else if (cur === "saved") p = h("button", { class: "btn", onClick: reset }, "Done");
+  primary.replaceChildren(p);
+
+  if (focused === "own-words") {
+    const el = document.getElementById("own-words");
+    if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+  }
+}
+
+render();
+checkStatus();
+</script>
+</body>
+</html>
