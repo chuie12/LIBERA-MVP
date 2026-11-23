@@ -5,5 +5,29 @@
     "url": "https://www.unomaha.edu/career-services/index.php",
     "access": "Visit the official page and select Connect with a Career Advisor for advising information, or use the Handshake link to explore jobs and internships.",
     "last_checked": "2026-11-02"
+  },
+  
+  {
+    "name": "UNO Writing Center",
+    "description": "The Writing Center invites UNO students, faculty, and staff in all university divisions to work with a writing consultant on any writing project. You may use this free service to work on your writing assignments, application essays, business letters, or other projects.",
+    "url": "https://www.unomaha.edu/college-of-arts-and-sciences/writing-center/index.php",
+    "access": "Visit the official page and select Schedule an Appointment or view their in-person hours.",
+    "last_checked": "2026-11-15"
+  },
+  
+  {
+    "name": "UNO Math-Science Learning Center",
+    "description": "Offers tutoring for math and science related subjects. Hours are available for in-person and on-line sessions.",
+    "url": "https://www.unomaha.edu/college-of-arts-and-sciences/math-science-learning-center/online-help/mathematics.php",
+    "access": "Visit the official page to view specific times, locations, and available tutors for each section of mathematics.",
+    "last_checked": "2026-11-15"
+  },
+  
+  {
+    "name": "UNO Health Services",
+    "description": "Offers a variety of healthcare related services and can provide information on health insurance as well. An appointment needs to be made prior to being seen.",
+    "url": "https://www.unomaha.edu/nebraska-medicine-uno-health-center/index.php",
+    "access": "Visit the official page for more information on scheduling appointments, services, healthcare insurance, provider teams, etc.",
+    "last_checked": "2026-11-15"
   }
 ]
