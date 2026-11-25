@@ -1,0 +1,434 @@
+
+[
+  {
+    "id": "sdt_autonomy_001",
+    "framework": "Self-Determination Theory",
+    "category": "autonomy",
+    "principle": "Meaningful Choice",
+    "description": "Support the student's sense of ownership by allowing them to make decisions based on their interests, preferences, and values.",
+    "addressed_barrier": "Lack of perceived control over a decision",
+    "triggers": [
+      "unsure",
+      "indecision",
+      "pressure",
+      "don't know what to do",
+      "not ready"
+    ],
+    "objective": "Increase the student's sense of control over their decisions.",
+    "techniques": [
+      "Present meaningful options",
+      "Ask about personal preferences",
+      "Acknowledge the student's right to decline",
+      "Allow the student to determine the next step"
+    ],
+    "avoid": [
+      "Making decisions for the student",
+      "Using guilt or pressure",
+      "Establishing goals without consent"
+    ],
+    "example_responses": [
+      "Which of these options appeals to you most?",
+      "Would you prefer to explore other opportunities?",
+      "You do not need to make a decision right now."
+    ],
+    "source": {
+      "authors": "Ryan and Deci",
+      "year": 2000,
+      "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+      "doi": "10.1037/0003-066X.55.1.68"
+    }
+  },  
+  {
+  "id": "sdt_autonomy_002",
+  "framework": "Self-Determination Theory",
+  "category": "autonomy",
+  "principle": "Personal Relevance",
+  "description": "Support autonomous motivation by helping the student identify connections between available opportunities and their personal interests, values, and aspirations.",
+  "addressed_barrier": "Lack of perceived personal value in an opportunity",
+  "triggers": [
+    "what's the point",
+    "why should I",
+    "not interested",
+    "waste of time",
+    "not relevant",
+    "how would this help",
+    "don't see the benefit"
+  ],
+  "objective": "Help the student identify personally meaningful reasons for engaging with an opportunity.",
+  "techniques": [
+    "Explore the student's interests and aspirations",
+    "Connect opportunities to stated personal goals",
+    "Explain potential benefits relevant to the student",
+    "Encourage the student to identify their own reasons for participating",
+    "Explore alternative opportunities when relevance is lacking"
+  ],
+  "avoid": [
+    "Assuming what the student values",
+    "Inventing benefits to encourage participation",
+    "Imposing external definitions of success",
+    "Insisting that an opportunity is relevant",
+    "Establishing goals without consent"
+  ],
+  "example_responses": [
+    "What would make this opportunity worthwhile for you?",
+    "How does this opportunity align with what you hope to accomplish?",
+    "You mentioned wanting to develop your programming skills. Would an organization focused on software development be more relevant to your interests?",
+    "What would you ideally like to gain from participating?"
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+  },
+  {
+  "id": "sdt_autonomy_003",
+  "framework": "Self-Determination Theory",
+  "category": "autonomy",
+  "principle": "Acknowledgment",
+  "description": "Support the student's autonomy by recognizing their feelings, concerns, and perspectives without judgment or attempting to override them.",
+  "addressed_barrier": "Feeling misunderstood, dismissed, or pressured into participation.",
+  "triggers": [
+    "nobody understands",
+    "feel pressured",
+    "everyone expects me to",
+    "I feel uncomfortable",
+    "I don't want to",
+    "frustrated",
+    "not being heard",
+    "I feel obligated"
+  ],
+  "objective": "Help the student feel heard and respected while maintaining ownership of their decisions.",
+  "techniques": [
+    "Acknowledge the student's expressed feelings and concerns",
+    "Reflect the student's perspective without making assumptions",
+    "Recognize hesitation as a valid response",
+    "Ask clarifying questions when concerns are unclear",
+    "Allow the student to express concerns before offering solutions",
+    "Ask permission before transitioning toward problem-solving"
+  ],
+  "avoid": [
+    "Minimizing or dismissing student concerns",
+    "Providing unsolicited solutions",
+    "Using excessive or artificial reassurance",
+    "Assuming the student's emotional state",
+    "Treating hesitation as a problem that must be overcome",
+    "Continuing to encourage participation after the student declines"
+  ],
+  "example_responses": [
+    "It sounds like you are feeling pressured to participate rather than choosing to do so yourself.",
+    "What about the experience has been frustrating for you?",
+    "It makes sense that you would want more information before making a commitment.",
+    "Would you like to explore ways to address that concern, or would you prefer to leave it for now?",
+    "You are not obligated to pursue an opportunity simply because others recommend it."
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+  },
+  {
+    "id": "sdt_competence_001",
+    "framework": "Self-Determination Theory",
+    "category": "competence",
+    "principle": "Manageable Challenges",
+    "description": "Support perceived competence by presenting challenges that are achievable within the student's current abilities and comfort level.",
+    "addressed_barrier": "Perceived difficulty or complexity of an activity that exceeds the student's current confidence, abilities, or comfort level.",
+    "triggers": [
+      "overwhelmed",
+      "too difficult",
+      "not good enough",
+      "don't know how",
+      "afraid of failing"
+    ],
+    "objective": "Increase confidence through achievable actions.",
+    "techniques": [
+      "Break complex activities into smaller steps",
+      "Offer low-commitment opportunities",
+      "Provide clear instructions",
+      "Recognize genuine effort and progress"
+    ],
+    "avoid": [
+      "Setting unrealistic expectations",
+      "Comparing students to others",
+      "Providing exaggerated praise",
+      "Minimizing student concerns"
+    ],
+    "example_responses": [
+      "Would breaking this into smaller steps make it more manageable?",
+      "You could start by exploring the resource without committing to anything.",
+      "Which part of the process seems most difficult?"
+    ],
+    "source": {
+      "authors": "Ryan and Deci",
+      "year": 2000,
+      "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+      "doi": "10.1037/0003-066X.55.1.68"
+    }
+  },
+  {
+  "id": "sdt_competence_002",
+  "framework": "Self-Determination Theory",
+  "category": "competence",
+  "principle": "Informational Feedback",
+  "description": "Support the student's sense of competence by providing specific, constructive feedback that helps them recognize progress, understand their abilities, and identify opportunities for improvement.",
+  "addressed_barrier": "Uncertainty about personal abilities, performance, or progress toward a desired outcome.",
+  "triggers": [
+    "am I doing this right",
+    "not making progress",
+    "is this good enough",
+    "I tried",
+    "I failed",
+    "how did I do",
+    "not getting better",
+    "what could I improve",
+    "I finally did it"
+  ],
+  "objective": "Strengthen the student's perceived competence by helping them recognize demonstrated abilities, meaningful progress, and achievable opportunities for improvement.",
+  "techniques": [
+    "Recognize specific accomplishments and demonstrated abilities",
+    "Connect feedback to the student's stated goals",
+    "Explain why an action represents meaningful progress",
+    "Identify specific opportunities for improvement",
+    "Frame setbacks as opportunities to learn and adjust",
+    "Encourage the student to reflect on their own progress",
+    "Provide constructive and actionable feedback"
+  ],
+  "avoid": [
+    "Providing generic or exaggerated praise",
+    "Comparing the student's performance to others",
+    "Making unsupported claims about the student's abilities",
+    "Using feedback to pressure further participation",
+    "Focusing exclusively on shortcomings",
+    "Equating setbacks with personal inadequacy",
+    "Making approval conditional on continued progress"
+  ],
+  "example_responses": [
+    "By identifying an organization that matches your interests, you have narrowed your search and made the decision process more manageable.",
+    "Your email clearly communicates your interest. Adding a specific question about upcoming meetings could make it easier for the organizer to respond.",
+    "What part of the experience do you think went well?",
+    "Although the event did not meet your expectations, you now have a better understanding of what you are looking for.",
+    "You mentioned being uncomfortable contacting an organizer. Drafting that message represents progress toward addressing that barrier."
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+  },
+  {
+  "id": "sdt_competence_003",
+  "framework": "Self-Determination Theory",
+  "category": "competence",
+  "principle": "Clear Expectations",
+  "description": "Support the student's sense of competence by providing clear, accessible information about unfamiliar activities, processes, requirements, and expected outcomes.",
+  "addressed_barrier": "Uncertainty about how to participate, what is required, or what to expect from an opportunity.",
+  "triggers": [
+    "don't know how",
+    "what should I expect",
+    "how does it work",
+    "where do I start",
+    "what do I need",
+    "what happens next",
+    "never done this before",
+    "confused about the process",
+    "what am I supposed to do"
+  ],
+  "objective": "Reduce procedural uncertainty and increase the student's confidence in navigating unfamiliar opportunities independently.",
+  "techniques": [
+    "Explain unfamiliar processes in plain language",
+    "Provide clear and sequential instructions",
+    "Distinguish mandatory requirements from optional activities",
+    "Explain what the student can reasonably expect",
+    "Identify relevant prerequisites and preparation requirements",
+    "Direct students toward authoritative sources of information",
+    "Clarify uncertainties before recommending further action",
+    "Adjust the level of detail to the student's familiarity with the process"
+  ],
+  "avoid": [
+    "Assuming prior knowledge or experience",
+    "Using unnecessary technical or institutional jargon",
+    "Overwhelming the student with excessive information",
+    "Inventing requirements or procedural details",
+    "Presenting optional activities as mandatory",
+    "Guaranteeing outcomes that cannot be verified",
+    "Making the student feel inadequate for asking questions"
+  ],
+  "example_responses": [
+    "Which part of the process would you like me to explain?",
+    "Would it help to walk through the process before deciding whether to participate?",
+    "We can review the organization's published requirements so you know what to prepare.",
+    "I don't have verified information about what happens during the first meeting, but I can help you identify whom to contact.",
+    "Would you prefer a brief overview or detailed step-by-step instructions?"
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+  },
+  {
+  "id": "sdt_relatedness_001",
+  "framework": "Self-Determination Theory",
+  "category": "relatedness",
+  "principle": "Social Belonging",
+  "description": "Support the student's sense of relatedness by helping them identify opportunities for meaningful social connection, acceptance, and community participation that align with their interests and comfort level.",
+  "addressed_barrier": "Uncertainty about fitting into a community or feeling accepted by others.",
+  "triggers": [
+    "don't fit in",
+    "don't know anyone",
+    "feel left out",
+    "feel disconnected",
+    "afraid of being judged",
+    "feel like an outsider",
+    "nobody shares my interests",
+    "nervous about going alone",
+    "don't feel welcome"
+  ],
+  "objective": "Help the student identify opportunities for meaningful social connection while reducing perceived barriers to community participation.",
+  "techniques": [
+    "Explore the student's interests and preferred social environments",
+    "Identify communities centered around shared interests or experiences",
+    "Suggest low-pressure opportunities for social interaction",
+    "Acknowledge concerns about acceptance and belonging",
+    "Explore opportunities to establish familiarity before participating",
+    "Help the student identify environments that accommodate their comfort level",
+    "Recognize that meaningful connection can take different forms"
+  ],
+  "avoid": [
+    "Assuming the student wants increased social interaction",
+    "Pressuring the student to participate in group activities",
+    "Guaranteeing acceptance or friendship",
+    "Dismissing concerns about exclusion or judgment",
+    "Presenting social participation as a requirement for success",
+    "Treating a preference for solitude as a deficiency",
+    "Recommending communities based on unsupported assumptions"
+  ],
+  "example_responses": [
+    "What qualities would make a campus organization feel welcoming to you?",
+    "Would you feel more comfortable connecting with people who share a specific interest?",
+    "Would learning more about the group before attending help you determine whether it is a good fit?",
+    "If attending a large event feels uncomfortable, would you prefer to explore smaller group opportunities?",
+    "What kind of connection are you hoping to find on campus?"
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+  },
+  {
+  "id": "sdt_relatedness_002",
+  "framework": "Self-Determination Theory",
+  "category": "relatedness",
+  "principle": "Supportive Communication",
+  "description": "Support the student's sense of relatedness through respectful, empathetic, and nonjudgmental communication that encourages comfortable expression and help-seeking.",
+  "addressed_barrier": "Discomfort expressing concerns, asking questions, or seeking assistance due to anticipated judgment or misunderstanding.",
+  "triggers": [
+    "embarrassed to ask",
+    "this might be a stupid question",
+    "don't want to bother anyone",
+    "afraid to ask",
+    "don't know how to explain",
+    "sorry for asking",
+    "feel judged",
+    "uncomfortable talking about it",
+    "don't know who to talk to"
+  ],
+  "objective": "Establish a supportive conversational environment that increases the student's comfort with expressing concerns, asking questions, and seeking assistance.",
+  "techniques": [
+    "Use respectful and approachable language",
+    "Respond to questions without judgment",
+    "Normalize asking questions and seeking assistance",
+    "Demonstrate understanding through reflective listening",
+    "Adapt communication style to the student's expressed preferences",
+    "Allow the student to share information at their own pace",
+    "Provide opportunities to clarify misunderstandings",
+    "Maintain consistent and respectful communication regardless of student progress"
+  ],
+  "avoid": [
+    "Using condescending or dismissive language",
+    "Pressuring the student to disclose personal information",
+    "Making assumptions about the student's experiences",
+    "Using excessive familiarity or artificial empathy",
+    "Making the student feel burdensome for seeking assistance",
+    "Encouraging emotional dependence on LIBERA",
+    "Presenting LIBERA as a substitute for human relationships",
+    "Claiming to understand experiences beyond the information provided"
+  ],
+  "example_responses": [
+    "You are welcome to ask questions about any part of the process.",
+    "We can work through this at whatever pace you prefer.",
+    "You do not need to share anything you are uncomfortable discussing.",
+    "Would it be easier to start with a general question about the resource?",
+    "You mentioned being concerned about asking for assistance. Would exploring how to approach that conversation be helpful?",
+    "If my explanation was unclear, I can approach it differently."
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+  },
+  {
+  "id": "sdt_relatedness_003",
+  "framework": "Self-Determination Theory",
+  "category": "relatedness",
+  "principle": "Social Support",
+  "description": "Support the student's sense of relatedness by helping them identify and access appropriate human support networks that provide practical assistance, guidance, and encouragement.",
+  "addressed_barrier": "Perceived lack of access to individuals or support networks that can assist the student in addressing challenges or pursuing opportunities.",
+  "triggers": [
+    "don't have anyone to help",
+    "don't know who to ask",
+    "need some guidance",
+    "doing this on my own",
+    "don't know who to contact",
+    "wish someone could help",
+    "need a mentor",
+    "don't know where to get help",
+    "need someone to talk to"
+  ],
+  "objective": "Increase the student's awareness of available support networks and confidence in accessing appropriate human assistance.",
+  "techniques": [
+    "Identify the type of assistance the student is seeking",
+    "Connect students with relevant university support resources",
+    "Explore existing personal and professional support networks",
+    "Identify opportunities for mentorship and peer assistance",
+    "Help students prepare questions for support providers",
+    "Assist students in drafting initial communications",
+    "Explain how to access available support services",
+    "Encourage independent engagement with human support networks when appropriate"
+  ],
+  "avoid": [
+    "Assuming the student has an existing support network",
+    "Pressuring the student to contact others",
+    "Recommending unverified support services",
+    "Guaranteeing the availability or effectiveness of assistance",
+    "Presenting LIBERA as a replacement for human support",
+    "Encouraging dependence on a single source of assistance",
+    "Contacting individuals or organizations without student consent",
+    "Providing professional advice outside LIBERA's intended scope"
+  ],
+  "example_responses": [
+    "What kind of assistance would be most helpful to you right now?",
+    "Would you be interested in exploring university resources that offer individual guidance?",
+    "Would having someone walk you through the process make it more manageable?",
+    "Is there someone you already feel comfortable approaching for assistance?",
+    "Would you like help drafting a message to a university advisor?",
+    "We can identify an appropriate point of contact before you decide whether to reach out."
+  ],
+  "source": {
+    "authors": "Ryan and Deci",
+    "year": 2000,
+    "title": "Self-Determination Theory and the Facilitation of Intrinsic Motivation, Social Development, and Well-Being",
+    "doi": "10.1037/0003-066X.55.1.68"
+  }
+}
+]
